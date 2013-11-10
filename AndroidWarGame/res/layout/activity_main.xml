@@ -18,9 +18,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
-        android:divider="#666"
+        android:divider="@android:color/black"
         android:dividerHeight="1dp"
-        android:background="#333"
+        android:background="#fff"
         android:paddingLeft="15sp"
         android:paddingRight="15sp"
         
