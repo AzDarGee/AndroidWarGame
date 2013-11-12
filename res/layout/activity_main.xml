@@ -21,9 +21,12 @@
         android:divider="@android:color/black"
         android:dividerHeight="1dp"
         android:background="#fff"
-        android:paddingLeft="15sp"
-        android:paddingRight="15sp"
+       
         
         />
     
 </android.support.v4.widget.DrawerLayout>
+
+<!--   android:paddingLeft="15sp"
+        android:paddingRight="15sp" -->
+
