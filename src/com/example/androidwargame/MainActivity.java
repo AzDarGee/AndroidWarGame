@@ -1,7 +1,9 @@
 package com.example.androidwargame;
 
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -11,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,11 +25,17 @@ public class MainActivity extends Activity {
         private ListView drawerListView;
         private ActionBarDrawerToggle actionBarDrawerToggle;
 
+        @SuppressLint("NewApi")
         @Override
         protected void onCreate(Bundle savedInstanceState) { 
                 super.onCreate(savedInstanceState);
+                Intent intent = getIntent();
+                Bundle extras = intent.getExtras();
+                String message = extras.getString("com.android.androidwargame.MESSAGE");
                 setContentView(R.layout.activity_main);
-
+                
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+				
                 // get list items from strings.xml
                 drawerListViewItems = getResources().getStringArray(R.array.items);
                 // get ListView defined in activity_main.xml
@@ -91,7 +100,7 @@ public class MainActivity extends Activity {
                 // Inflate the menu; this adds items to the action bar if it is present.
                 getMenuInflater().inflate(R.menu.main, menu);
                 return true;
-        }
+       }
 
          private class DrawerItemClickListener implements ListView.OnItemClickListener {
                 @Override
