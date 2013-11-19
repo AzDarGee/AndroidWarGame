@@ -9,16 +9,17 @@ public class TextConsoleGUI {
 
 	public static void main(String[] args) {
 
-		Player player1 = new Player(100, 100, 10, 10, 10, 10, 10, 10);
-		Player player2 = new Player(200, 50, 8, 8, 7, 8, 8, 8);
+		Player player1 = new Player("Josh", 100, 100, 10, 10, 10, 10, 10, 10,20);
+		Player player2 = new Player("Josh Clone", 200, 50, 8, 8, 7, 8, 8, 8, 10);
 
 		GameManager.gameManager = new GameManager();
 		GameManager.gameManager.addPlayers(player1, player2);
 
 
-		while(player1.getHealth()>0 || player2.getHealth()>0)
+		while(true)
 		{
-			playerTakeTurn(GameManager.gameManager.players[GameManager.gameManager.currentPlayerTurn]);
+			playerTakeTurn(GameManager.gameManager.players[0]);
+			playerTakeTurn(GameManager.gameManager.players[1]);
 			System.out.println("");
 		}
 
@@ -61,7 +62,7 @@ public class TextConsoleGUI {
 
 		if(choice == '1')
 		{
-			GameManager.gameManager.queueAction(new AttackAction(player, GameManager.gameManager.returnOpponent(player), Attack.basicAttack));
+			player.enqueueAction(new AttackAction(player, GameManager.gameManager.returnOpponent(player), Attack.basicAttack));
 		}
 	}
 
@@ -90,7 +91,7 @@ public class TextConsoleGUI {
 			}
 		}
 
-		GameManager.gameManager.queueAction(new ConsumableItemAction(player, null, Item.allConsumableItems.get(targetIndex)));
+		player.enqueueAction(new ConsumableItemAction(player, null, Item.allConsumableItems.get(targetIndex)));
 	}
 
 	public static void choiceEquipItem(Player player)
@@ -125,12 +126,11 @@ public class TextConsoleGUI {
 
 		if(choice == 1)		
 		{
-			GameManager.gameManager.queueAction(new EquipItemAction(player, null, Item.allEquippableItems.get(targetIndex)));
+			player.enqueueAction(new EquipItemAction(player, null, Item.allEquippableItems.get(targetIndex)));
 		}
 		else
 		{
-			GameManager.gameManager.queueAction(new EquipItemAction(player, null, Item.allEquippableItems.get(targetIndex)));
-
+			player.enqueueAction(new EquipItemAction(player, null, Item.allEquippableItems.get(targetIndex)));
 		}
 	}
 }

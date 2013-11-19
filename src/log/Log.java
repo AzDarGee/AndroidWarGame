@@ -2,20 +2,26 @@ package log;
 
 public class Log {
 
-	private LeakyStack<String> leakyStack;
+	private static Log log = new Log();
+	private String logText = "";
 	
-	public Log(int capacity)
+	public static void post(String text, int level, boolean hypenated)
 	{
-		leakyStack = new LeakyStack<String>(capacity);
+		for(int n=0;n<level;n++)
+		{
+			text = "\t" + text;
+		}
+
+		if(hypenated)
+		{
+			text = "- " + text;
+		}
+		
+		log.logText = log.logText + text + "\n";
 	}
-	
-	public void post(String text)
+
+	public static String printLog()
 	{
-		leakyStack.push(text);
-	}
-	
-	public String toString()
-	{
-		return leakyStack.toString();
+		return log.logText;
 	}
 }

@@ -1,5 +1,7 @@
 package core;
 
+import log.Log;
+
 /**
  * All Attack objects store attacks of different names, base damage, critical rates, accuracy and mana cost.
  * @author Joshua Saunders
@@ -25,6 +27,8 @@ public class Attack {
 		this.critRate = critRate;
 		this.accuracy = accuracy;
 		this.manaCost = manaCost;
+		
+		Log.post("Attack " + name + " added", 1, true);
 	}
 	
 	private String name;

@@ -2,6 +2,7 @@ package action;
 
 import java.util.Random;
 
+import log.Log;
 import core.Attack;
 import core.GameManager;
 import core.Player;
@@ -16,6 +17,7 @@ public class AttackAction extends Action {
 	}
 
 	public void doAction() {
+		Log.post(user.getName() + " used " + attack.getName() + " on " + target.getName(), 1, true);
 		this.target.changeHealth(-calcDamage(user,target));
 		user.changeMana(-attack.getManaCost());
 	}
@@ -37,7 +39,7 @@ public class AttackAction extends Action {
 		}
 		else
 		{
-			GameManager.gameManager.postToLog(attack.getName() + " missed!");
+			Log.post(attack.getName() + " missed!", 2, true);
 			return 0;
 		}
 	}
