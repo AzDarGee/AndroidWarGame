@@ -6,9 +6,11 @@
     <string name="hello_world">Hello world!</string>
     
     <string-array name="items">
-        <item>My Profile</item>
-        <item>Store</item>
-        <item>Items</item>
+        <item>Attacks</item>
+        <item>Shop</item>
+        <item>Inventory</item>
+        <item>Equipped Items</item>
+        <item>Log</item>
     </string-array>
 
     <string name="drawer_open">Open navigation drawer</string>
