@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
         private DrawerLayout drawerLayout;
         private ListView drawerListView;
         private ActionBarDrawerToggle actionBarDrawerToggle;
-
+        
         @SuppressLint("NewApi")
         @Override
         protected void onCreate(Bundle savedInstanceState) { 
@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
                 setContentView(R.layout.activity_main);
                 
                 Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
-				
+                Toast.makeText(MainActivity.this, "HELLO WORLD", Toast.LENGTH_LONG).show();
                 // get list items from strings.xml
                 drawerListViewItems = getResources().getStringArray(R.array.items);
                 // get ListView defined in activity_main.xml
