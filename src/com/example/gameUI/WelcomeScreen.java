@@ -1,4 +1,6 @@
-package com.example.androidwargame;
+package com.example.gameUI;
+
+import com.example.androidwargame.R;
 
 import android.app.Activity;
 import android.content.Intent;

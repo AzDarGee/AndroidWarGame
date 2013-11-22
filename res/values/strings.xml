@@ -12,6 +12,10 @@
         <item>Equipped Items</item>
         <item>Log</item>
     </string-array>
+    
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_expandable_list">ExpandableList Demo</string>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
