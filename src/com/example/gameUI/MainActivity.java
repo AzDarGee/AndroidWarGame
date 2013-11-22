@@ -1,7 +1,16 @@
-package com.example.androidwargame;
+package com.example.gameUI;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.example.androidwargame.R;
 
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -11,30 +20,49 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ExpandableListView.OnChildClickListener;
 
 public class MainActivity extends Activity {
 
-        private String[] drawerListViewItems;
+		private List<String> groupList;
+		private List<String> childList;
+		private Map<String, List<String>> optionCollection;
         private DrawerLayout drawerLayout;
-        private ListView drawerListView;
+        private ExpandableListView drawerListView;
         private ActionBarDrawerToggle actionBarDrawerToggle;
-
+        
+        @SuppressLint("NewApi")
         @Override
         protected void onCreate(Bundle savedInstanceState) { 
                 super.onCreate(savedInstanceState);
+                Intent intent = getIntent();
+                Bundle extras = intent.getExtras();
+                String message = extras.getString("com.android.androidwargame.MESSAGE");
                 setContentView(R.layout.activity_main);
+                
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
 
-                // get list items from strings.xml
-                drawerListViewItems = getResources().getStringArray(R.array.items);
-                // get ListView defined in activity_main.xml
-                drawerListView = (ListView) findViewById(R.id.left_drawer);
+                createGroupList();
+        		createCollection();
+                
+                
+//                // get list items from strings.xml
+//                drawerListViewItems = getResources().getStringArray(R.array.items);
+        		
+        		
+                // get ExpandableListView defined in activity_main.xml
+                drawerListView = (ExpandableListView) findViewById(R.id.drawer_list);
+                
+                final ExpandableListAdapter drawerListAdapter = new ExpandableListAdapter(
+        				this, groupList, optionCollection);
 
                 // Set the adapter for the list view
-                drawerListView.setAdapter(new ArrayAdapter<String>(this,
-                                R.layout.drawer_listview_item, drawerListViewItems));
+                drawerListView.setAdapter(drawerListAdapter);
 
                 // App Icon
                 drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -56,10 +84,64 @@ public class MainActivity extends Activity {
                 drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
                                 GravityCompat.START);
                 
-                drawerListView.setOnItemClickListener(new DrawerItemClickListener());
+                //drawerListView.setOnItemClickListener(new DrawerItemClickListener());
                 
+                
+                drawerListView.setOnChildClickListener(new OnChildClickListener() {
+
+        			public boolean onChildClick(ExpandableListView parent, View v,
+        					int groupPosition, int childPosition, long id) {
+        				final String selected = (String) drawerListAdapter.getChild(
+        						groupPosition, childPosition);
+        				Toast.makeText(getBaseContext(), selected, Toast.LENGTH_LONG)
+        						.show();
+
+        				return true;
+        			}
+        		});
 
         }
+        
+        private void createGroupList() {
+    		groupList = new ArrayList<String>();
+    		groupList.add("Attacks");
+    		groupList.add("Shop");
+    		groupList.add("Inventory");
+    		groupList.add("Equipped Items");
+    	}
+
+    	private void createCollection() {
+    		
+    		String[] attacks = { "Attack1", "Attack2",
+    				"Attack3","Attack4" };
+    		String[] shop = { "Buy1", "Buy2", "Buy3" };
+    		String[] inventory = { "Item1", "Item2", "Item 3"};
+    		String[] equippedItems = { "Item1", "Item2",
+    				"Item3", "Item4" };
+    		
+
+    		optionCollection = new LinkedHashMap<String, List<String>>();
+
+    		for (String options : groupList) {
+    			if (options.equals("Attacks")) {
+    				loadChild(attacks);
+    			} else if (options.equals("Shop")) {
+    				loadChild(shop);
+    			} else if (options.equals("Inventory")) {
+    				loadChild(inventory);
+    			} else if (options.equals("Equipped Items")){
+    				loadChild(equippedItems);
+    			} 
+
+    			optionCollection.put(options, childList);
+    		}
+    	}
+
+    	private void loadChild(String[] drawerOptions) {
+    		childList = new ArrayList<String>();
+    		for (String options : drawerOptions)
+    			childList.add(options);
+    	}
         
         @Override
         protected void onPostCreate(Bundle savedInstanceState) {
@@ -91,13 +173,17 @@ public class MainActivity extends Activity {
                 // Inflate the menu; this adds items to the action bar if it is present.
                 getMenuInflater().inflate(R.menu.main, menu);
                 return true;
-        }
+       }
 
          private class DrawerItemClickListener implements ListView.OnItemClickListener {
                 @Override
                 public void onItemClick(AdapterView parent, View view, int position, long id) {
                     Toast.makeText(MainActivity.this, ((TextView)view).getText(), Toast.LENGTH_LONG).show();
                     drawerLayout.closeDrawer(drawerListView);
+                    
+                    if (((TextView)view).getText()== "Attacks"){
+                    	
+                    }
          
                 }
             }
