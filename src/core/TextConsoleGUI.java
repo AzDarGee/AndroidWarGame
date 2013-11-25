@@ -12,7 +12,7 @@ public class TextConsoleGUI {
 		Player player1 = new Player("Josh", 100, 100, 10, 10, 10, 10, 10, 10,20);
 		Player player2 = new Player("Josh Clone", 200, 50, 8, 8, 7, 8, 8, 8, 10);
 
-		GameManager.gameManager = new GameManager();
+		GameManager.gameManager = new GameManager(null);
 		GameManager.gameManager.addPlayers(player1, player2);
 
 

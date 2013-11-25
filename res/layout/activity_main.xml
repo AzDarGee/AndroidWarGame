@@ -87,6 +87,16 @@
  	    android:textColor="@android:color/white"
  	    android:text="Experience: " />
 
+ 	<Button
+ 	    android:id="@+id/endTurnButton"
+ 	    style="?android:attr/buttonStyleSmall"
+ 	    android:layout_width="wrap_content"
+ 	    android:layout_height="wrap_content"
+ 	    android:layout_alignLeft="@+id/playerExperience"
+ 	    android:layout_below="@+id/playerExperience"
+ 	    android:onClick="endTurn"
+ 	    android:text="End Turn" />
+
     </RelativeLayout>
     
     <!-- The navigation drawer -->

@@ -5,6 +5,8 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.example.gameUI.MainActivity;
+
 import turnEffect.TurnEffect;
 import log.Log;
 import action.Action;
@@ -17,6 +19,7 @@ import action.AttackAction;
 public class GameManager {
 
 	public static GameManager gameManager;
+	public MainActivity androidGUI;
 	public static final int PLAYER1 = 0;
 	public static final int PLAYER2 = 1;
 	public Player[] players = new Player[2];
@@ -28,8 +31,9 @@ public class GameManager {
 	/**
 	 * Creating a new GameManager object initializes all parts of the game.
 	 */
-	public GameManager()
+	public GameManager(MainActivity androidGUI)
 	{
+		this.androidGUI = androidGUI;
 		Item.initializeItems();
 		Log.post("Game started!", 0, false);
 	}
