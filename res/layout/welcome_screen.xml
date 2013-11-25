@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent" >
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/endTurnButton"
                 android:layout_width="150sp"
                 android:layout_height="150sp"
                 android:background="@drawable/imagebutton"

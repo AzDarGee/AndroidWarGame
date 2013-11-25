@@ -32,7 +32,7 @@ public class WelcomeScreen extends Activity {
 		
 		switch (view.getId()) {
 
-		case (R.id.button1): // if its button1 that is clicked
+		case (R.id.endTurnButton): // if its button1 that is clicked
 		{
 			if (serverMSG == "") {
 				Toast.makeText(WelcomeScreen.this, "Enter Server Address 2!",

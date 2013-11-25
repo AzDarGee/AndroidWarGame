@@ -1,12 +1,25 @@
 package com.example.gameUI;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.example.androidwargame.R;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
+import core.GameManager;
+import core.Player;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -29,12 +42,28 @@ import android.widget.ExpandableListView.OnChildClickListener;
 
 public class MainActivity extends Activity {
 
+		//TODO		
 		private List<String> groupList;
 		private List<String> childList;
 		private Map<String, List<String>> optionCollection;
         private DrawerLayout drawerLayout;
         private ExpandableListView drawerListView;
         private ActionBarDrawerToggle actionBarDrawerToggle;
+        private ClientManager clientManager;
+        
+        
+        public void syncGuiChanges()
+        {
+        	//update players
+        	
+        	//update attacks
+        	
+        	//update shop
+        	
+        	//update inventory
+        	
+        	//update equipped items
+        }
         
         @SuppressLint("NewApi")
         @Override
@@ -48,8 +77,7 @@ public class MainActivity extends Activity {
                 Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
 
                 createGroupList();
-        		createCollection();
-                
+        		createCollection();            
                 
 //                // get list items from strings.xml
 //                drawerListViewItems = getResources().getStringArray(R.array.items);
@@ -98,8 +126,15 @@ public class MainActivity extends Activity {
 
         				return true;
         			}
+        			//TODO
         		});
-
+                
+                try {
+					clientManager = new ClientManager(this, "localhost", 5555);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
         }
         
         private void createGroupList() {
@@ -187,5 +222,14 @@ public class MainActivity extends Activity {
          
                 }
             }
+         
+         /**
+          * Called when the End Turn button is pushed
+          */
+         public void endTurn(View v)
+         {
+        	 //
+         }
+         
          
 }
