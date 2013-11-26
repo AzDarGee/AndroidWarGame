@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 
+
+import clientManager.ClientManager;
 import clientManager.TCPClient;
 
 import com.example.androidwargame.R;
@@ -46,228 +48,203 @@ import android.widget.ExpandableListView.OnChildClickListener;
 
 public class MainActivity extends Activity {
 
-		//TODO		
-		private final String IP_ADDRESS = "10.69.221.97";
-		private List<String> groupList;
-		private List<String> childList;
-		private Map<String, List<String>> optionCollection;
-        private DrawerLayout drawerLayout;
-        private ExpandableListView drawerListView;
-        private ActionBarDrawerToggle actionBarDrawerToggle;
-        private TCPClient mTcpClient;
-        
-        
-        public void syncGuiChanges()
-        {
-        	//update players
-        	
-        	//update attacks
-        	
-        	//update shop
-        	
-        	//update inventory
-        	
-        	//update equipped items
-        }
-        
-        @SuppressLint("NewApi")
-        @Override
-        protected void onCreate(Bundle savedInstanceState) { 
-                super.onCreate(savedInstanceState);
-                Intent intent = getIntent();
-                Bundle extras = intent.getExtras();
-                String message = extras.getString("com.android.androidwargame.MESSAGE");
-                setContentView(R.layout.activity_main);
-                
-                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+	//TODO		
+	private final String IP_ADDRESS = "10.69.221.97";
+	private List<String> groupList;
+	private List<String> childList;
+	private Map<String, List<String>> optionCollection;
+	private DrawerLayout drawerLayout;
+	private ExpandableListView drawerListView;
+	private ActionBarDrawerToggle actionBarDrawerToggle;
+	private ClientManager clientManager;
 
-                createGroupList();
-        		createCollection();                       
-        		
-        		
-                // get ExpandableListView defined in activity_main.xml
-                drawerListView = (ExpandableListView) findViewById(R.id.drawer_list);
-                
-                final ExpandableListAdapter drawerListAdapter = new ExpandableListAdapter(
-        				this, groupList, optionCollection);
 
-                // Set the adapter for the list view
-                drawerListView.setAdapter(drawerListAdapter);
+	public void syncGuiChanges()
+	{
+		//update players
 
-                // App Icon
-                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-                
-                //Create ActionBarDrawerToggle
-                actionBarDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
-                drawerLayout, /* DrawerLayout object */
-                R.drawable.ic_drawer, /* nav drawer icon to replace 'Up' caret */
-                R.string.drawer_open, /* "open drawer" description */
-                R.string.drawer_close /* "close drawer" description */
-                );
+		//update attacks
 
-                // Set actionBarDrawerToggle as the DrawerListener
-                drawerLayout.setDrawerListener(actionBarDrawerToggle);
+		//update shop
 
-                getActionBar().setDisplayHomeAsUpEnabled(true);
+		//update inventory
 
-                // just styling option add shadow the right edge of the drawer
-                drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-                                GravityCompat.START);
-                
-                //drawerListView.setOnItemClickListener(new DrawerItemClickListener());
-                
-                
-                drawerListView.setOnChildClickListener(new OnChildClickListener() {
+		//update equipped items
+	}
 
-        			public boolean onChildClick(ExpandableListView parent, View v,
-        					int groupPosition, int childPosition, long id) {
-        				final String selected = (String) drawerListAdapter.getChild(
-        						groupPosition, childPosition);
-        				Toast.makeText(getBaseContext(), selected, Toast.LENGTH_LONG)
-        						.show();
+	@SuppressLint("NewApi")
+	@Override
+	protected void onCreate(Bundle savedInstanceState) { 
+		super.onCreate(savedInstanceState);
+		Intent intent = getIntent();
+		Bundle extras = intent.getExtras();
+		String message = extras.getString("com.android.androidwargame.MESSAGE");
+		setContentView(R.layout.activity_main);
 
-        				return true;
-        			}
-        			//TODO	
-        		});
-             
-                final TextView textView = (TextView) findViewById(R.id.logView);
-                Button endTurn = (Button) findViewById(R.id.button1);
-             // connect to the server
-                new connectTask().execute("");
-                //new MyActivity();
-                Log.d("MAINACTIVITY-->TEST ",textView.getText().toString());
-//                mTcpClient.sendMessage("Android Client: TEST"+ textView.getText().toString());
-               
-                endTurn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-         
-                        String message2 = textView.getText().toString();       
-         
-                        //sends the message to the server
-                        if (mTcpClient != null) {
-                            mTcpClient.sendMessage(message2);
-                        }
-                    }
-                });             
-        }
-        
-        public class connectTask extends AsyncTask<String,String,TCPClient> {
-       	 
-            @Override
-            protected TCPClient doInBackground(String... message) {
-     
-                //we create a TCPClient object and
-                mTcpClient = new TCPClient(new TCPClient.OnMessageReceived() {
-                    @Override
-                    //here the messageReceived method is implemented
-                    public void messageReceived(String message) {
-                        //this method calls the onProgressUpdate
-                        publishProgress(message);
-                    }
-                });
-                mTcpClient.run();
-     
-                return null;
-            }}
-        
-        private void createGroupList() {
-    		groupList = new ArrayList<String>();
-    		groupList.add("Attacks");
-    		groupList.add("Shop");
-    		groupList.add("Inventory");
-    		groupList.add("Equipped Items");
-    	}
+		Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
 
-    	private void createCollection() {
-    		
-    		String[] attacks = { "Attack1", "Attack2",
-    				"Attack3","Attack4" };
-    		String[] shop = { "Buy1", "Buy2", "Buy3" };
-    		String[] inventory = { "Item1", "Item2", "Item 3"};
-    		String[] equippedItems = { "Item1", "Item2",
-    				"Item3", "Item4" };
-    		
+		createGroupList();
+		createCollection();                       
 
-    		optionCollection = new LinkedHashMap<String, List<String>>();
+		clientManager = new ClientManager(this);
+        clientManager.sendMessageToServer("#getClientID");
 
-    		for (String options : groupList) {
-    			if (options.equals("Attacks")) {
-    				loadChild(attacks);
-    			} else if (options.equals("Shop")) {
-    				loadChild(shop);
-    			} else if (options.equals("Inventory")) {
-    				loadChild(inventory);
-    			} else if (options.equals("Equipped Items")){
-    				loadChild(equippedItems);
-    			} 
+		// get ExpandableListView defined in activity_main.xml
+		drawerListView = (ExpandableListView) findViewById(R.id.drawer_list);
 
-    			optionCollection.put(options, childList);
-    		}
-    	}
+		final ExpandableListAdapter drawerListAdapter = new ExpandableListAdapter(
+				this, groupList, optionCollection);
 
-    	private void loadChild(String[] drawerOptions) {
-    		childList = new ArrayList<String>();
-    		for (String options : drawerOptions)
-    			childList.add(options);
-    	}
-        
-        @Override
-        protected void onPostCreate(Bundle savedInstanceState) {
-            super.onPostCreate(savedInstanceState);
-            // Sync the toggle state after onRestoreInstanceState has occurred.
-             actionBarDrawerToggle.syncState();
-        }
-        
-        @Override
-        public void onConfigurationChanged(Configuration newConfig) {
-                super.onConfigurationChanged(newConfig);
-                actionBarDrawerToggle.onConfigurationChanged(newConfig);
-        }
+		// Set the adapter for the list view
+		drawerListView.setAdapter(drawerListAdapter);
 
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
+		// App Icon
+		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-                // call ActionBarDrawerToggle.onOptionsItemSelected(), if it returns
-                // true
-                // then it has handled the app icon touch event
-                if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-                        return true;
-                }
-                return super.onOptionsItemSelected(item);
-        }
+		//Create ActionBarDrawerToggle
+		actionBarDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
+				drawerLayout, /* DrawerLayout object */
+				R.drawable.ic_drawer, /* nav drawer icon to replace 'Up' caret */
+				R.string.drawer_open, /* "open drawer" description */
+				R.string.drawer_close /* "close drawer" description */
+				);
 
-        
-        
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-                // Inflate the menu; this adds items to the action bar if it is present.
-                getMenuInflater().inflate(R.menu.main, menu);
-                return true;
-       }
+		// Set actionBarDrawerToggle as the DrawerListener
+		drawerLayout.setDrawerListener(actionBarDrawerToggle);
 
-         private class DrawerItemClickListener implements ListView.OnItemClickListener {
-                @Override
-                public void onItemClick(AdapterView parent, View view, int position, long id) {
-                    Toast.makeText(MainActivity.this, ((TextView)view).getText(), Toast.LENGTH_LONG).show();
-                    drawerLayout.closeDrawer(drawerListView);
-                    
-                    if (((TextView)view).getText()== "Attacks"){
-                    	
-                    }
-         
-                }
-            }
-         
-       
-         /**
-          * Called when the End Turn button is pushed
-          */
-         public void endTurn(View v)
-         {
-        	 //end turn
-         }
-         
-         
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+
+		// just styling option add shadow the right edge of the drawer
+		drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+				GravityCompat.START);
+
+		//drawerListView.setOnItemClickListener(new DrawerItemClickListener());
+
+
+		drawerListView.setOnChildClickListener(new OnChildClickListener() {
+
+			public boolean onChildClick(ExpandableListView parent, View v,
+					int groupPosition, int childPosition, long id) {
+				final String selected = (String) drawerListAdapter.getChild(
+						groupPosition, childPosition);
+				Toast.makeText(getBaseContext(), selected, Toast.LENGTH_LONG)
+				.show();
+
+				if(v instanceof TextView)
+				{
+					String message = ((TextView)v).getText().toString() + childPosition;
+					clientManager.appendToCommandString(message);
+				}
+				
+				return true;
+			}
+			//TODO	
+		});
+
+		final TextView textView = (TextView) findViewById(R.id.logView);
+		Button endTurn = (Button) findViewById(R.id.button1);
+
+		//new MyActivity();
+		Log.d("MAINACTIVITY-->TEST ",textView.getText().toString());
+		//                mTcpClient.sendMessage("Android Client: TEST"+ textView.getText().toString());
+
+		endTurn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+
+				clientManager.sendCommandStringToServer();
+			}
+		});             
+	}
+
+
+
+	private void createGroupList() {
+		groupList = new ArrayList<String>();
+		groupList.add("Attacks");
+		groupList.add("Shop");
+		groupList.add("Inventory");
+		groupList.add("Equipped Items");
+	}
+
+	private void createCollection() {
+
+		String[] attacks = { "Attack1", "Attack2",
+				"Attack3","Attack4" };
+		String[] shop = { "Buy1", "Buy2", "Buy3" };
+		String[] inventory = { "Item1", "Item2", "Item 3"};
+		String[] equippedItems = { "Item1", "Item2",
+				"Item3", "Item4" };
+
+
+		optionCollection = new LinkedHashMap<String, List<String>>();
+
+		for (String options : groupList) {
+			if (options.equals("Attacks")) {
+				loadChild(attacks);
+			} else if (options.equals("Shop")) {
+				loadChild(shop);
+			} else if (options.equals("Inventory")) {
+				loadChild(inventory);
+			} else if (options.equals("Equipped Items")){
+				loadChild(equippedItems);
+			} 
+
+			optionCollection.put(options, childList);
+		}
+	}
+
+	private void loadChild(String[] drawerOptions) {
+		childList = new ArrayList<String>();
+		for (String options : drawerOptions)
+			childList.add(options);
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		actionBarDrawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		actionBarDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		// call ActionBarDrawerToggle.onOptionsItemSelected(), if it returns
+		// true
+		// then it has handled the app icon touch event
+		if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView parent, View view, int position, long id) {
+			Toast.makeText(MainActivity.this, ((TextView)view).getText(), Toast.LENGTH_LONG).show();
+			drawerLayout.closeDrawer(drawerListView);
+
+
+			//			String message = ((TextView)view).getText().toString() + position;
+			//			clientManager.appendToCommandString(message);
+
+
+		}
+	}
 }
