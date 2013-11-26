@@ -1,4 +1,4 @@
-package com.example.gameUI;
+package clientManager;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -8,11 +8,12 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import com.example.gameUI.MainActivity;
+
 import oscf.AbstractClient;
 import oscf.ChatIF;
 import android.view.View;
 import android.widget.EditText;
-import core.GameManager;
 
 public class ClientManager extends AbstractClient implements ChatIF {
 
@@ -31,13 +32,14 @@ public class ClientManager extends AbstractClient implements ChatIF {
 	public ClientManager(MainActivity mainActivity, String host, int port)
 			throws IOException {
 		super(host, port);
-		this.loginId = "test"; //stores given login id in global variable
+		this.loginId = "LOGIN"; //stores given login id in global variable
 		openConnection();
 		this.sendToServer("#login " + loginId); //sends the login ID to the server
+		this.sendToServer("#getClientID");
 	}
 
 	public void handleMessageFromServer(Object msg) {
-		if(msg.toString().contains("#getClientID"))
+		if(msg.toString().contains("#setClientID"))
 		{
 			//TODO
 			System.out.println("TEST");

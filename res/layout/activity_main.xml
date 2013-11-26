@@ -6,99 +6,145 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient">
-    
+
     <!-- The main content view -->
     <RelativeLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
- 
- 	<TextView
- 	    android:id="@+id/opponentName"
- 	    android:layout_width="match_parent"
- 	    android:layout_height="wrap_content"
- 	    android:text="OPPONENT NAME"
- 	    android:textColor="@android:color/white"
- 	    android:gravity="right"
- 	    android:textSize="18dp" />
 
- 	<ImageView
- 	    android:id="@+id/imageView1"
- 	    android:layout_width="140dp"
- 	    android:layout_height="140dp"
- 	    android:layout_below="@+id/opponentName"
- 	    android:gravity="right"
- 	    android:src="@drawable/char2" />
- 	
- 	<TextView
- 	    android:id="@+id/opponentHealth"
- 	    android:layout_width="match_parent"
- 	    android:layout_height="wrap_content"
- 	    android:layout_below="@+id/imageView1"
- 	    android:gravity="right"
- 	    android:text="Health"
- 	    android:textColor="@android:color/white"
- 	    android:textSize="15dp" />
+        <TextView
+            android:id="@+id/opponentName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OPPONENT NAME"
+            android:textColor="@android:color/white"
+            android:gravity="right"
+            android:textSize="16dp"
+            android:layout_alignLeft="@+id/imageView1" />
 
- 	<ProgressBar
- 	    android:id="@+id/progressBar1"
- 	    style="?android:attr/progressBarStyleHorizontal"
- 	    android:layout_width="match_parent"
- 	    android:layout_height="wrap_content"
- 	    android:layout_below="@+id/opponentHealth"
- 	    android:max="100"
- 	    android:progress="60"
- 	    android:progressDrawable="@drawable/green_health" />
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:gravity="right"
+            android:src="@drawable/char2"
+            android:layout_below="@+id/opponentName"
+            android:layout_alignParentRight="true" />
 
- 	<ImageView
- 	    android:id="@+id/imageView2"
- 	    android:layout_width="140dp"
- 	    android:layout_height="140dp"
- 	    android:layout_below="@+id/progressBar1"
- 	    android:layout_marginTop="40dp"
- 	    android:gravity="left"
- 	    android:src="@drawable/char2" />
+        <TextView
+            android:id="@+id/opponentHealth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Health"
+            android:textColor="@android:color/white"
+            android:textSize="15dp"
+            android:layout_below="@+id/imageView1"
+            android:layout_alignLeft="@+id/imageView1" />
 
- 	<ProgressBar
- 	    android:id="@+id/progressBar2"
- 	    style="?android:attr/progressBarStyleHorizontal"
- 	    android:layout_width="match_parent"
- 	    android:layout_height="wrap_content"
- 	    android:layout_below="@+id/imageView2"
- 	    android:max="100"
- 	    android:progress="90"
- 	    android:progressDrawable="@drawable/green_health" />
- 	
- 	<TextView
- 	    android:id="@+id/playerHealth"
- 	    android:layout_width="wrap_content"
- 	    android:layout_height="wrap_content"
- 	    android:layout_below="@+id/progressBar2"
- 	    android:layout_centerHorizontal="true"
- 	    android:textColor="@android:color/white"
- 	    android:text="HEALTH/MANA: " />
- 	
- 	<TextView
- 	    android:id="@+id/playerExperience"
- 	    android:layout_width="wrap_content"
- 	    android:layout_height="wrap_content"
- 	    android:layout_below="@+id/playerHealth"
- 	    android:layout_centerHorizontal="true"
- 	    android:textColor="@android:color/white"
- 	    android:text="Experience: " />
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="60"
+            android:progressDrawable="@drawable/green_health"
+            android:layout_below="@+id/opponentHealth"
+            android:layout_alignLeft="@+id/opponentHealth" />
 
- 	<Button
- 	    android:id="@+id/endTurnButton"
- 	    style="?android:attr/buttonStyleSmall"
- 	    android:layout_width="wrap_content"
- 	    android:layout_height="wrap_content"
- 	    android:layout_alignLeft="@+id/playerExperience"
- 	    android:layout_below="@+id/playerExperience"
- 	    android:onClick="endTurn"
- 	    android:text="End Turn" />
+        <TextView
+            android:id="@+id/palyertName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PLAYER NAME"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:layout_below="@+id/progressBar1"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="14dp"
+            android:layout_alignRight="@+id/imageView2" />
 
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:gravity="left"
+            android:src="@drawable/char2"
+            android:layout_below="@+id/progressBar1"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="35dp" />
+
+        <TextView
+            android:id="@+id/playerHealthGUI"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Health"
+            android:textColor="@android:color/white"
+            android:textSize="15dp"
+            android:layout_below="@+id/imageView2"
+            android:layout_alignRight="@+id/imageView2" />
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="90"
+            android:progressDrawable="@drawable/green_health"
+            android:layout_below="@+id/playerHealthGUI"
+            android:layout_alignParentLeft="true"
+            android:layout_alignRight="@+id/playerHealthGUI" />
+
+        <TextView
+            android:id="@+id/playerExperience"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="Experience: "
+            android:layout_below="@+id/progressBar1"
+            android:layout_marginTop="53dp"
+            android:layout_toRightOf="@+id/imageView2"
+            android:layout_alignRight="@+id/progressBar1" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End Turn"
+            android:layout_alignBottom="@+id/progressBar2"
+            android:layout_alignRight="@+id/progressBar1" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:max="100"
+            android:progress="90"
+            android:layout_below="@+id/playerExperience"
+            android:layout_alignRight="@+id/playerExperience"
+            android:layout_toRightOf="@+id/imageView2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Log:"
+            android:maxLines = "10"
+            android:scrollbars = "vertical"
+            android:id="@+id/logView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignBottom="@+id/progressBar1"
+            android:textColor="#fff"
+            android:layout_toLeftOf="@+id/opponentName" />
     </RelativeLayout>
-    
+
     <!-- The navigation drawer -->
     <ExpandableListView
         android:id="@+id/drawer_list"
@@ -111,9 +157,9 @@
         android:background="@color/grey"
         android:childDivider="@android:color/transparent"
         android:groupIndicator="@drawable/settings_selector"
-         >
+        >
     </ExpandableListView>
-    
+
 </android.support.v4.widget.DrawerLayout>
 
 

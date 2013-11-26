@@ -9,7 +9,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import clientManager.TCPClient;
+
 import com.example.androidwargame.R;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -18,8 +22,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import core.GameManager;
-import core.Player;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -28,6 +31,7 @@ import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,13 +47,14 @@ import android.widget.ExpandableListView.OnChildClickListener;
 public class MainActivity extends Activity {
 
 		//TODO		
+		private final String IP_ADDRESS = "10.69.221.97";
 		private List<String> groupList;
 		private List<String> childList;
 		private Map<String, List<String>> optionCollection;
         private DrawerLayout drawerLayout;
         private ExpandableListView drawerListView;
         private ActionBarDrawerToggle actionBarDrawerToggle;
-        private ClientManager clientManager;
+        private TCPClient mTcpClient;
         
         
         public void syncGuiChanges()
@@ -77,10 +82,7 @@ public class MainActivity extends Activity {
                 Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
 
                 createGroupList();
-        		createCollection();            
-                
-//                // get list items from strings.xml
-//                drawerListViewItems = getResources().getStringArray(R.array.items);
+        		createCollection();                       
         		
         		
                 // get ExpandableListView defined in activity_main.xml
@@ -126,16 +128,49 @@ public class MainActivity extends Activity {
 
         				return true;
         			}
-        			//TODO
+        			//TODO	
         		});
-                
-                try {
-					clientManager = new ClientManager(this, "localhost", 5555);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+             
+                final TextView textView = (TextView) findViewById(R.id.logView);
+                Button endTurn = (Button) findViewById(R.id.button1);
+             // connect to the server
+                new connectTask().execute("");
+                //new MyActivity();
+                Log.d("MAINACTIVITY-->TEST ",textView.getText().toString());
+//                mTcpClient.sendMessage("Android Client: TEST"+ textView.getText().toString());
+               
+                endTurn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+         
+                        String message2 = textView.getText().toString();       
+         
+                        //sends the message to the server
+                        if (mTcpClient != null) {
+                            mTcpClient.sendMessage(message2);
+                        }
+                    }
+                });             
         }
+        
+        public class connectTask extends AsyncTask<String,String,TCPClient> {
+       	 
+            @Override
+            protected TCPClient doInBackground(String... message) {
+     
+                //we create a TCPClient object and
+                mTcpClient = new TCPClient(new TCPClient.OnMessageReceived() {
+                    @Override
+                    //here the messageReceived method is implemented
+                    public void messageReceived(String message) {
+                        //this method calls the onProgressUpdate
+                        publishProgress(message);
+                    }
+                });
+                mTcpClient.run();
+     
+                return null;
+            }}
         
         private void createGroupList() {
     		groupList = new ArrayList<String>();
@@ -203,6 +238,8 @@ public class MainActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
 
+        
+        
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
                 // Inflate the menu; this adds items to the action bar if it is present.
@@ -223,12 +260,13 @@ public class MainActivity extends Activity {
                 }
             }
          
+       
          /**
           * Called when the End Turn button is pushed
           */
          public void endTurn(View v)
          {
-        	 //
+        	 //end turn
          }
          
          

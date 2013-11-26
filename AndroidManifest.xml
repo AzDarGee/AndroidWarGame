@@ -4,6 +4,9 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
@@ -12,30 +15,27 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
-        
         <activity
-            android:theme="@style/Theme.Sherlock.Light.NoActionBar"
             android:name="com.example.gameUI.WelcomeScreen"
-            android:label="welcome screen" >
+            android:label="welcome screen"
+            android:theme="@style/Theme.Sherlock.Light.NoActionBar" >
+
             <!-- Intent-filter ensures this activity is the default application screen -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
-            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
             android:name="com.example.gameUI.MainActivity"
             android:label="@string/app_name"
-            android:parentActivityName="com.android.androidwargame.WelcomeScreen" >
+            android:parentActivityName="com.android.androidwargame.WelcomeScreen"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar" >
             <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.android.androidwargame.WelcomeScreen" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.android.androidwargame.WelcomeScreen" />
         </activity>
-        
-        
-        
     </application>
 
 </manifest>
